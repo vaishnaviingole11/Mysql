@@ -1,0 +1,434 @@
+1.create database healthcare;
+
+2.show databases;
+
+3.use healthcare;
+
+4.create table patient (
+    ->     patient_id int primary key,
+    ->     first_name varchar(50),
+    ->     last_name varchar(50),
+    ->     blood_group varchar(10),
+    ->     insurance_no varchar(50),
+    ->     insurance_provider varchar(100),
+    ->     address varchar(200),
+    ->     email varchar(100),
+    ->     phone varchar(15),
+    ->     gender varchar(10),
+    ->     dob date;
+
+5.insert into patient values
+(101, 'rahul', 'sharma', 'A+', 'INS1001', 'star health',
+'pune', 'rahul@gmail.com', '9876543210', 'male', '2000-05-12'),
+
+(102, 'priya', 'patil', 'B+', 'INS1002', 'hdfc ergo',
+'mumbai', 'priya@gmail.com', '9876543211', 'female', '1999-08-20'),
+
+(103, 'amit', 'deshmukh', 'O+', 'INS1003', 'icici lombard',
+'nashik', 'amit@gmail.com', '9876543212', 'male', '2001-02-15'),
+
+(104, 'sneha', 'joshi', 'AB+', 'INS1004', 'star health',
+'pune', 'sneha@gmail.com', '9876543213', 'female', '1998-11-10'),
+
+(105, 'rohan', 'patil', 'O-', 'INS1005', 'bajaj allianz',
+'nagpur', 'rohan@gmail.com', '9876543214', 'male', '1997-04-25'),
+
+(106, 'neha', 'shinde', 'A-', 'INS1006', 'star health',
+'aurangabad', 'neha@gmail.com', '9876543215', 'female', '2002-01-18'),
+
+(107, 'sachin', 'more', 'B-', 'INS1007', 'hdfc ergo',
+'pune', 'sachin@gmail.com', '9876543216', 'male', '1996-09-30'),
+
+(108, 'pooja', 'jadhav', 'AB-', 'INS1008', 'icici lombard',
+'nashik', 'pooja@gmail.com', '9876543217', 'female', '2000-12-05'),
+
+(109, 'akash', 'kale', 'A+', 'INS1009', 'bajaj allianz',
+'mumbai', 'akash@gmail.com', '9876543218', 'male', '1999-06-14'),
+
+(110, 'kavita', 'desai', 'O+', 'INS1010', 'star health',
+'pune', 'kavita@gmail.com', '9876543219', 'female', '2001-03-22');
+
+
+6. create table medical_history (
+    ->     history_id int primary key,
+    ->     patient_id int,
+    ->     history_date date,
+    ->     allergies varchar(200),
+    ->     diagnoses varchar(200),
+    ->     medications varchar(200),
+    ->     previous_treatment varchar(200),
+    ->     remarks varchar(300),
+    ->
+    ->     foreign key (patient_id)
+    ->     references patient(patient_id)
+    -> );
+
+7.insert into medical_history values
+(1, 101, '2025-01-10', 'dust', 'asthma',
+'inhaler', 'regular medication', 'stable condition'),
+
+(2, 102, '2025-02-15', 'none', 'fever',
+'paracetamol', 'home treatment', 'recovered'),
+
+(3, 103, '2025-03-20', 'penicillin', 'infection',
+'antibiotics', 'antibiotic course', 'improved'),
+
+(4, 104, '2025-04-12', 'none', 'migraine',
+'painkiller', 'medication', 'under observation'),
+
+(5, 105, '2025-05-18', 'dust', 'bronchitis',
+'inhaler', 'respiratory treatment', 'improving'),
+
+(6, 106, '2025-06-22', 'none', 'anemia',
+'iron tablets', 'iron therapy', 'stable'),
+
+(7, 107, '2025-07-14', 'pollen', 'allergy',
+'antihistamine', 'allergy treatment', 'controlled'),
+
+(8, 108, '2025-08-19', 'none', 'diabetes',
+'insulin', 'diabetes treatment', 'under control'),
+
+(9, 109, '2025-09-25', 'dust', 'sinusitis',
+'antibiotics', 'medical treatment', 'improved'),
+
+(10, 110, '2025-10-10', 'none', 'hypertension',
+'blood pressure medicine', 'regular treatment', 'stable');
+
+8. create table doctor (
+    ->     doctor_id int primary key,
+    ->     doctor_name varchar(100),
+    ->     specialization varchar(100),
+    ->     degree varchar(100),
+    ->     phone varchar(15),
+    ->     joining_date date,
+    ->     experience int
+    -> );
+
+9.insert into doctor values
+(201, 'dr. amit kulkarni', 'cardiologist', 'mbbs md',
+'9876500011', '2015-06-10', 11),
+
+(202, 'dr. neha patil', 'neurologist', 'mbbs md',
+'9876500012', '2017-07-15', 9),
+
+(203, 'dr. raj shinde', 'orthopedic', 'mbbs ms',
+'9876500013', '2018-03-20', 8),
+
+(204, 'dr. pooja joshi', 'general physician', 'mbbs',
+'9876500014', '2020-01-10', 6),
+
+(205, 'dr. rohit desai', 'dermatologist', 'mbbs md',
+'9876500015', '2016-05-12', 10),
+
+(206, 'dr. snehal more', 'gynecologist', 'mbbs ms',
+'9876500016', '2019-08-18', 7),
+
+(207, 'dr. vikas patil', 'surgeon', 'mbbs ms',
+'9876500017', '2014-02-25', 12),
+
+(208, 'dr. kavita sharma', 'pediatrician', 'mbbs md',
+'9876500018', '2021-01-15', 5),
+
+(209, 'dr. anil joshi', 'ent specialist', 'mbbs ms',
+'9876500019', '2013-09-10', 13),
+
+(210, 'dr. ritu deshmukh', 'diabetologist', 'mbbs md',
+'9876500020', '2018-11-20', 8);
+
+10.create table encounter (
+    ->     encounter_id int primary key,
+    ->     patient_id int,
+    ->     doctor_id int,
+    ->     reason varchar(200),
+    ->     encounter_type varchar(50),
+    ->     date date,
+    ->     discharge_date date,
+    ->
+    ->     foreign key (patient_id)
+    ->     references patient(patient_id),
+    ->
+    ->     foreign key (doctor_id)
+    ->     references doctor(doctor_id)
+    -> );
+
+11.insert into encounter values
+(301, 101, 201, 'chest pain', 'outpatient',
+'2026-01-10', '2026-01-10'),
+
+(302, 102, 202, 'severe headache', 'outpatient',
+'2026-01-15', '2026-01-15'),
+
+(303, 103, 203, 'leg pain', 'inpatient',
+'2026-02-05', '2026-02-08'),
+
+(304, 104, 204, 'fever', 'outpatient',
+'2026-02-20', '2026-02-20'),
+
+(305, 105, 205, 'skin infection', 'outpatient',
+'2026-03-05', '2026-03-05'),
+
+(306, 106, 206, 'health checkup', 'outpatient',
+'2026-03-12', '2026-03-12'),
+
+(307, 107, 207, 'knee injury', 'inpatient',
+'2026-03-20', '2026-03-23'),
+
+(308, 108, 208, 'high sugar level', 'outpatient',
+'2026-04-02', '2026-04-02'),
+
+(309, 109, 209, 'sinus problem', 'outpatient',
+'2026-04-10', '2026-04-10'),
+
+(310, 110, 210, 'high blood pressure', 'outpatient',
+'2026-04-15', '2026-04-15');
+
+
+12. > create table report (
+    ->     report_id int primary key,
+    ->     encounter_id int,
+    ->     date date,
+    ->     result varchar(500),
+    ->
+    ->     foreign key (encounter_id)
+    ->     references encounter(encounter_id)
+    -> );
+
+13. insert into report values
+(401, 301, '2026-01-10', 'ecg normal'),
+
+(402, 302, '2026-01-15', 'migraine detected'),
+
+(403, 303, '2026-02-06', 'leg fracture detected'),
+
+(404, 304, '2026-02-20', 'viral fever'),
+
+(405, 305, '2026-03-05', 'skin infection detected'),
+
+(406, 306, '2026-03-12', 'blood report normal'),
+
+(407, 307, '2026-03-21', 'knee injury detected'),
+
+(408, 308, '2026-04-02', 'high glucose level'),
+
+(409, 309, '2026-04-10', 'sinus infection'),
+
+(410, 310, '2026-04-15', 'blood pressure high');
+
+
+14.  create table test (
+    ->     test_id int primary key,
+    ->     report_id int,
+    ->     prescription_id int,
+    ->     test_type varchar(100),
+    ->     test_name varchar(100),
+    ->     charges decimal(10,2),
+    ->     estimate_time varchar(50),
+    ->
+    ->     foreign key (report_id)
+    ->     references report(report_id)
+    -> );
+
+15.insert into test values
+(501, 401, 701, 'cardiac', 'ecg', 800, '30 minutes'),
+
+(502, 402, 702, 'blood', 'cbc', 500, '2 hours'),
+
+(503, 403, 703, 'xray', 'leg xray', 1000, '1 hour'),
+
+(504, 404, 704, 'blood', 'cbc', 500, '2 hours'),
+
+(505, 405, 705, 'skin', 'skin test', 1200, '2 hours'),
+
+(506, 406, 706, 'blood', 'hemoglobin test', 400, '1 hour'),
+
+(507, 407, 707, 'xray', 'knee xray', 1500, '1 hour'),
+
+(508, 408, 708, 'blood', 'blood sugar', 300, '1 hour'),
+
+(509, 409, 709, 'nasal', 'sinus scan', 2000, '2 hours'),
+
+(510, 410, 710, 'blood', 'blood pressure test', 250, '30 minutes');
+
+16. create table medicine (
+    ->     medicine_id int primary key,
+    ->     medicine_name varchar(100),
+    ->     instructions varchar(300),
+    ->     medicine_type varchar(100)
+    -> );
+
+17. insert into medicine values
+(601, 'paracetamol', 'take after food', 'tablet'),
+
+(602, 'azithromycin', 'take once daily', 'tablet'),
+
+(603, 'ibuprofen', 'take after meal', 'tablet'),
+
+(604, 'amoxicillin', 'take twice daily', 'capsule'),
+
+(605, 'omeprazole', 'take before breakfast', 'capsule'),
+
+(606, 'cetirizine', 'take at night', 'tablet'),
+
+(607, 'metformin', 'take after food', 'tablet'),
+
+(608, 'amlodipine', 'take once daily', 'tablet'),
+
+(609, 'iron supplement', 'take after meal', 'tablet'),
+
+(610, 'insulin', 'use as prescribed', 'injection');
+
+18.create table prescription (
+    ->     prescription_id int primary key,
+    ->     medicine_id int,
+    ->     doctor_id int,
+    ->     dispensing varchar(100),
+    ->     duration varchar(50),
+    ->     medications varchar(200),
+    ->     dosage varchar(100),
+    ->     prescription_date date,
+    ->
+    ->     foreign key (medicine_id)
+    ->     references medicine(medicine_id),
+    ->
+    ->     foreign key (doctor_id)
+    ->     references doctor(doctor_id)
+    -> );
+
+19.insert into prescription values
+(701, 601, 201, 'pharmacy', '5 days',
+'paracetamol', '500 mg twice daily', '2026-01-10'),
+
+(702, 602, 202, 'pharmacy', '3 days',
+'azithromycin', '500 mg once daily', '2026-01-15'),
+
+(703, 603, 203, 'pharmacy', '5 days',
+'ibuprofen', '400 mg twice daily', '2026-02-05'),
+
+(704, 604, 204, 'pharmacy', '7 days',
+'amoxicillin', '500 mg twice daily', '2026-02-20'),
+
+(705, 605, 205, 'pharmacy', '10 days',
+'omeprazole', '20 mg once daily', '2026-03-05'),
+
+(706, 606, 206, 'pharmacy', '5 days',
+'cetirizine', '10 mg once daily', '2026-03-12'),
+
+(707, 607, 207, 'pharmacy', '30 days',
+'metformin', '500 mg twice daily', '2026-03-20'),
+
+(708, 608, 208, 'pharmacy', '30 days',
+'amlodipine', '5 mg once daily', '2026-04-02'),
+
+(709, 609, 209, 'pharmacy', '30 days',
+'iron supplement', '100 mg once daily', '2026-04-10'),
+
+(710, 610, 210, 'pharmacy', '30 days',
+'insulin', 'as prescribed', '2026-04-15');
+
+20.   alter table test
+    -> add constraint fk_test_prescription
+    -> foreign key (prescription_id)
+    -> references prescription(prescription_id);
+
+21. create table surgery (
+    ->     surgery_id int primary key,
+    ->     patient_id int,
+    ->     surgery_noteid int,
+    ->     charges decimal(10,2),
+    ->     status varchar(50),
+    ->     surgery_date date,
+    ->     surgery_name varchar(200),
+    ->
+    ->     foreign key (patient_id)
+    ->     references patient(patient_id)
+    -> );
+
+22.insert into surgery values
+(801, 103, 901, 75000, 'completed',
+'2026-02-07', 'leg fracture surgery'),
+
+(802, 107, 902, 65000, 'completed',
+'2026-03-22', 'knee surgery'),
+
+(803, 101, 903, 120000, 'scheduled',
+'2026-05-10', 'angioplasty'),
+
+(804, 105, 904, 40000, 'completed',
+'2026-03-06', 'skin surgery'),
+
+(805, 102, 905, 90000, 'scheduled',
+'2026-05-15', 'brain surgery'),
+
+(806, 106, 906, 55000, 'completed',
+'2026-03-13', 'minor surgery'),
+
+(807, 108, 907, 35000, 'completed',
+'2026-04-03', 'minor procedure'),
+
+(808, 109, 908, 45000, 'scheduled',
+'2026-05-20', 'sinus surgery'),
+
+(809, 110, 909, 60000, 'completed',
+'2026-04-16', 'vascular surgery'),
+
+(810, 104, 910, 30000, 'completed',
+'2026-02-21', 'minor surgery');
+
+23. create table surgery_note (
+    ->     surgery_noteid int primary key,
+    ->     surgery_id int,
+    ->     encounter_id int,
+    ->     note_date date,
+    ->     observations varchar(500),
+    ->     recommendations varchar(500),
+    ->
+    ->     foreign key (surgery_id)
+    ->     references surgery(surgery_id),
+    ->
+    ->     foreign key (encounter_id)
+    ->     references encounter(encounter_id)
+    -> );
+
+24.insert into surgery_note values
+(901, 801, 303, '2026-02-07',
+'surgery completed successfully',
+'complete bed rest for two weeks'),
+
+(902, 802, 307, '2026-03-22',
+'knee surgery completed successfully',
+'physiotherapy recommended'),
+
+(903, 803, 301, '2026-05-10',
+'angioplasty planned',
+'follow cardiac diet'),
+
+(904, 804, 305, '2026-03-06',
+'skin surgery completed',
+'keep wound clean'),
+
+(905, 805, 302, '2026-05-15',
+'patient prepared for surgery',
+'regular neurological monitoring'),
+
+(906, 806, 306, '2026-03-13',
+'procedure completed successfully',
+'follow-up after one week'),
+
+(907, 807, 308, '2026-04-03',
+'procedure completed',
+'monitor glucose level'),
+
+(908, 808, 309, '2026-05-20',
+'sinus surgery planned',
+'avoid dust and cold air'),
+
+(909, 809, 310, '2026-04-16',
+'surgery completed successfully',
+'continue prescribed medication'),
+
+(910, 810, 304, '2026-02-21',
+'minor surgery completed',
+'return for follow-up');
+
+25. show tables;
+   
