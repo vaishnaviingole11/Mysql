@@ -1,0 +1,291 @@
+  ----------- MYSQL ASSIGNMENT 1---------------
+
+Q1) Display Databases
+Login to MySQL and write a query to display all databases already present in the system.
+QUERY:-// Display all databases
+           SHOW DATABASES;
+
+Q2) Create countries Table
+Write an SQL query to create a table named countries including columns country_id,
+country_name and region_id.
+After this display the structure of table.
+QUERY:-create table country          
+       (country_id int,country_name varchar(22),region_id int);
+      
+        //display the structure of table
+        query:-  desc country;
+
+
+ Q3) Create jobs Table with Constraints
+Write an SQL query to create a table named jobs including columns job_id, job_title,
+min_salary, max_salary.
+Apply constraints:
+- job_id must be Primary Key
+- job_title cannot be NULL
+- max_salary must not exceed 25000    
+
+QUERY:-   create table job(job_id int primary key,job_title varchar(22) not null,
+          min_salary decimal(7,2),max_salary decimal(10,2)
+          -> check(max_salary<=25000));
+
+
+Q4) Create job_history Table
+Write an SQL query to create a table named job_history including columns employee_id,
+start_date, end_date, job_id and department_id.
+
+QUERY:- create table job_history
+        (employee_id int,start_date date,end_date date,job_id int,department_id int);
+
+Q5) Add UNIQUE Constraint
+Alter the countries table so that duplicate values in country_id are not allowed during insertion.
+
+QUERY:-  alter table country
+    -    add unique(country_id);
+
+Q6) Create jobs_default Table with DEFAULT Values
+Write an SQL query to create a table named jobs_default including columns job_id, job_title,
+min_salary and max_salary.
+Set default values:
+- job_title default should be blank (“”)
+- min_salary default should be 8000
+- max_salary default should be NULL
+
+QUERY:- CREATE TABLE jobs_default (
+         job_id INT,
+         job_title VARCHAR(22) DEFAULT '',
+         min_salary DECIMAL(10,2) DEFAULT 8000,
+          max_salary DECIMAL(7,2) DEFAULT NULL
+          );
+         
+
+
+                   ----------- ASSIGNMENT:-2-------------
+
+
+
+Q1) Create the tables Member, Books, and Issue WITHOUT constraints.
+ QUERY:-create table member(id int,name varchar(30),address varchar(50),acc_open_date date,membership_type varchar(20),fees_paid decimal(10,2),max_books_allowed int,penalty_amount decimal(10,2));
+
+ create table books(book_no int,book_name varchar(30),author_name varchar(30),cost decimal(10,2),category varchar(15));
+
+ create table issue(lib_issue_id int,book_no int,member_id int,issue_date date,return_date date);
+
+Q2) Display the structure of all three tables using DESC.
+QUERY:-desc member;
+       desc books;
+       desc issue;
+
+Q3) Drop the Member table.
+QUERY: drop table member;
+
+Q4) Create the Member table again with these constraints:
+- Member_Id must be PRIMARY KEY
+- Membership_Type must allow only:
+('Lifetime','Annual','Half Yearly','Quarterly')
+QUERY:-CREATE TABLE Member (
+           Member_Id INT PRIMARY KEY,
+            Name VARCHAR(30),
+              Address VARCHAR(50),
+              Acc_Open_Date DATE,
+              Membership_Type VARCHAR(20)
+        CHECK (Membership_Type IN ('Lifetime', 'Annual', 'Half Yearly', 'Quarterly')),
+              Fees_Paid DECIMAL(10,2),
+              Max_Books_Allowed INT,
+              Penalty_Amount DECIMAL(10,2)
+        );
+Q5) Alter Member table to increase Name size from 30 to 40.
+QUERY:-alter table member
+        modify name varchar(40);
+
+Q6) Add a column Reference (VARCHAR (30)) to Issue table.
+ QUERY:-  alter table issue
+          add reference varchar(30);
+
+Q7) Drop the column Reference from Issue table.
+ QUERY:-  alter table issue
+           drop  column reference ;
+
+Q8) Rename the table Issue to Lib_Issue.
+QUERY:-  rename table issue to lib_issue;
+
+Q9) Insert the following records into Member table:
+    Table format
+Member ID	Member Name	Member Address	Acc_Open_Date	Membership_Type	Fees_Paid	Max_Books_Allowed	Penalty_Amount
+1	Richa Sharma	Pune	2005-10-12	Lifetime	25000	5	50
+2	Garima Sen	Pune	Current Date	Annual	1000	3	NULL
+,
+QUERY:- INSERT INTO member
+(id, name, address, acc_open_date, membership_type, fees_paid, max_books_allowed, penalty_amount)
+VALUES
+(1, 'Richa Sharma', 'Pune', '2005-10-12', 'Lifetime', 25000, 5, 50),
+(2, 'Garima Sen', 'Pune', '2006-05-17', 'Annual', 1000, 3, NULL);
+
+
+Q10) Insert at least 5 more records with suitable data into Member table.
+QUERY:  INSERT INTO member
+(id, name, address, acc_open_date, membership_type, fees_paid, max_books_allowed, penalty_amount)
+VALUES
+(3, 'Amit Patil', 'Mumbai', '2007-03-15', 'Annual', 1200, 3, 20),
+(4, 'Sneha Joshi', 'Nashik', '2008-07-22', 'Lifetime', 25000, 5, 0),
+(5, 'Rahul Kulkarni', 'Pune', '2009-01-10', 'Annual', 1000, 3, 30),
+(6, 'Priya Deshmukh', 'Nagpur', '2010-11-05', 'Lifetime', 25000, 5, 0),
+(7, 'Karan Shah', 'Pune', '2011-06-18', 'Annual', 1500, 4, 40);
+
+Q11) Try to decrease Member_Name size from 40 to 20.
+If it fails, mention the reason.
+Query:- ALTER TABLE member
+          MODIFY Member_Name VARCHAR(20);
+
+      If it fails:
+
+      The command may fail if existing data contains a member name longer than 20 characters.
+     Reason: Decreasing the column size from VARCHAR(40) to VARCHAR(20) can cause existing data to be truncated, so MySQL may reject the       change.
+
+Q12) Add a CHECK constraint:
+Max_Books_Allowed must be less than 100.
+QUERY:-   ALTER TABLE member
+          ADD CHECK (max_books_allowed < 100);
+
+Q13) Create a backup table named MemberBackup using the Member table.
+Use the following query:
+CREATE TABLE MemberBackup AS
+SELECT * FROM Member;
+QUERY:- 
+
+
+
+
+
+Q14) Add named constraints:
+- Max_Books_Allowed < 100
+- Penalty_Amount <= 1000
+QUERY:- ALTER TABLE member
+ADD CONSTRAINT chk_max_books
+CHECK (max_books_allowed < 100),
+ADD CONSTRAINT chk_penalty
+CHECK (penalty_amount <= 1000);
+
+Q15) Drop the Books table.
+  QUERY:-  DROP TABLE Books;
+
+Q16) Create Books table again with constraints:
+- Book_No PRIMARY KEY
+- Book_Name NOT NULL
+- Category must be one of:
+('System','Fiction','Database','RDBMS','Others','Science')
+   QUERY:-  CREATE TABLE Books (
+    Book_No INT PRIMARY KEY,
+    Book_Name VARCHAR(40) NOT NULL,
+    Category VARCHAR(20),
+    CONSTRAINT chk_category
+    CHECK (Category IN ('System', 'Fiction', 'Database', 'RDBMS', 'Others', 'Science'))
+);
+
+
+                     ---------- MySQL Assignment – 3-----------
+
+
+
+Q1) Write an SQL query to insert the above employee records into the EMPLOYEES table.
+ QUERY:-    insert into employees
+            (employee_id, first_name, last_name, job_id, salary, manager_id, department_id)
+        values
+            (100, 'steven',    'king',      1, 24000.00, 200, 10),
+            (101, 'neena',     'kochhar',   2, 17000.00, 200, 10),
+               (102, 'lex',       'de haan',   2, 17000.00, 200, 10),
+            (103, 'alexander', 'hunold',    3,  9000.00, 103, 60),
+            (104, 'bruce',     'ernst',     3,  6000.00, 103, 60),
+            (105, 'david',     'austin',    3,  4800.00, 103, 60),
+            (106, 'valli',     'pataballa', 3,  4800.00, 103, 60),
+            (107, 'diana',     'lorentz',   3,  4200.00, 114, 30),
+            (108, 'nancy',     'greenberg', 4, 12000.00, 145, 80),
+               (109, 'daniel',    'faviet',    4,  9000.00, 145, 80);
+
+
+Q2) Write a single SQL INSERT statement to insert at least 3 department records into the
+DEPARTMENTS table.
+ QUERY:-    insert into departments (department_id, department_name, manager_id, location_id)
+          values
+             (10, 'administration', 200, 1700),
+            (20, 'marketing', 201, 1800),
+             (30, 'purchasing', 114, 1700);
+
+
+Q3) Write an SQL query to insert one new job record into the JOBS table ensuring duplicate
+JOB_ID is not allowed.
+
+ QUERY:-   insert into jobs (job_id, job_title, min_salary, max_salary)
+           values (5, 'programmer', 20000, 50000);
+             
+
+
+
+                         ----------MySQL Assignment – 4----------
+
+
+Q1) Write an SQL query to display employee first_name and last_name with suitable column aliases.
+ QUERY:-    select first_name as "first name",
+              last_name as "last name"
+             from employees;
+
+Q2) Write an SQL query to display all different department IDs available in the employees table.
+ QUERY:-    select distinct department_id
+           from employees;
+
+Q3) Write an SQL query to display all employee details sorted by first_name in descending order.
+ QUERY:- select *
+         from employees
+           order by first_name desc;
+
+Q4) Write an SQL query to display first_name, last_name, salary, and PF for all employees. (PF = 15% of salary)
+ QUERY:-  select first_name,
+          last_name,salary,
+             salary * 0.15 as pf
+            from employees;
+
+Q5) Write an SQL query to display employee_id, employee names, and salary sorted in increasing order of salary.
+ QUERY:-  select employee_id,
+       first_name,
+       last_name,
+       salary
+       from employees
+       order by salary asc;
+Q6) Write an SQL query to display the total salary payable to all employees.
+ QUERY:-  select sum(salary) as total_salary
+            from employees;
+
+Q7) Write an SQL query to display the highest salary and the lowest salary from the employees table.
+ QUERY:-  select max(salary) as highest_salary,
+          min(salary) as lowest_salary
+          from employees;
+Q8) Write an SQL query to display the average salary and the total number of employees.
+ QUERY:-   select avg(salary) as average_salary,
+           count(*) as total_employees
+           from employees;
+Q9) Write an SQL query to display the total number of employees working in the company.
+ QUERY:-   select count(*) as total_employees
+           from employees;
+Q10) Write an SQL query to display the number of different job roles available in the employees table.
+ QUERY:-   select count(distinct job_id) as total_job_roles
+            from employees;
+Q11) Write an SQL query to display the first 10 employee records from the employees table.
+ QUERY:-  select *from employees
+           limit 10;
+
+Q12) Write an SQL query to display employee names and salary for employees whose salary is less than 10000 or greater than 15000.
+ QUERY:-  select first_name, last_name,salary
+          from employees
+           where salary < 10000
+            or salary > 15000;
+
+Q13) Write an SQL query to display employee names and department_id for employees working in department 30 and department 100. Sort the result by department_id.
+   QUERY:-  select first_name, last_name department_id
+         from employees
+       where department_id in (30, 100)
+        order by department_id;
+
+Q14) Write an SQL query to display employee names and salary for employees working in department 30 or 100, whose salary is outside the range 10000 to 15000.
+  QUERY:- select first_name, last_name salary
+          from employees
+          where department_id in (30, 100)
+         and salary not between 10000 and 15000;
